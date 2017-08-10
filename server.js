@@ -11,7 +11,6 @@ const helmet = require('helmet');
 const passport = require('passport');
 const JwtBearerStrategy = require('passport-oauth2-jwt-bearer').Strategy;
 const request = require('request');
-const OktaConfig = require('./js/config');
 
 /**
  * Arguments
@@ -31,39 +30,46 @@ var argv = yargs
     issuer: {
       description: 'Access Token Issuer URL',
       required: true,
-      alias: 'iss',
-      default: OktaConfig.orgUrl
+      alias: ['iss', 'orgUrl']
     },
     audience: {
-      description: 'Acceess Token Audience URI',
+      description: 'Access Token Audience URI',
       required: true,
-      alias: 'aud',
-      default: OktaConfig.clientId
+      alias: ['aud', 'clientId']
+    },
+    widgetScopes: {
+      array: true,
+      description: 'Scopes for the Okta Sign-In Widget to request'
     },
     scope: {
       description: 'OAuth 2.0 Scope for Protected Resource',
-      required: true,
-      alias: 'scp',
-      default: OktaConfig.resourceScope
+      alias: ['scp', 'protectedScope'],
     },
     apiToken: {
       description: 'Okta Organization SSWS API Token for Social IdP Callbacks',
-      required: true,
       alias: 'ssws',
-      default: OktaConfig.apiToken
+    },
+    authzIssuer: {
+      description: 'Alternate Authorization URL',
+    },
+    idp: {
+      description: 'Okta ID for the Social IdP',
     }
   })
+  .config()
   .example('\t$0 --iss https://example.okta.com --aud ANRZhyDh8HBFN5abN6Rg', '')
+  .env('')
   .argv;
-
-const issuerUrl = url.parse(argv.issuer);
-const metadataUrl = argv.issuer + '/.well-known/openid-configuration';
-const orgUrl = issuerUrl.protocol + '//' + issuerUrl.host + (issuerUrl.port ? ':' + issuerUrl.port : '');
 
 console.log();
 console.log('Listener Port:\n\t' + argv.port);
 console.log('Issuer URL:\n\t' + argv.issuer);
 console.log('Audience URI:\n\t' + argv.audience);
+
+const issuerUrl = url.parse(argv.issuer);
+const metadataUrl = argv.issuer + '/.well-known/openid-configuration';
+const orgUrl = issuerUrl.protocol + '//' + issuerUrl.host + (issuerUrl.port ? ':' + issuerUrl.port : '');
+
 console.log('Metadata URL:\n\t' + metadataUrl);
 console.log('Organization URL:\n\t' + orgUrl);
 console.log();
@@ -83,6 +89,8 @@ const sessionHandler = require('express-session')({
   saveUninitialized: true
 });
 
+app.enable('trust proxy');
+
 /**
  * Middleware
  */
@@ -97,6 +105,21 @@ app.use(passport.initialize());
 /**
  * Routes
  */
+
+app.get('/js/config.js', sessionHandler, function(req, res, next) {
+  res.setHeader('Content-Type', 'application/javascript');
+  return res.render('config', {argv: argv});
+});
+
+app.get('/welcome', sessionHandler, function(req, res, next) {
+  var thisAppUrl = req.protocol + "://" + req.headers.host
+  
+  return res.render('welcome', {
+    thisAppUrl: thisAppUrl,
+    oktaAdminOrg: argv.issuer.replace('.', '-admin.'),
+    argv: argv
+  });
+});
 
 app.get('/social/callback', sessionHandler, function(req, res, next) {
   const txId = req.query.tx_id;
@@ -231,11 +254,3 @@ request({
   });
 
 });
-
-
-
-
-
-
-
-

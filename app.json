@@ -1,0 +1,31 @@
+{
+  "name": "Okta Node.js OIDC Sample",
+  "description": "A barebones Node.js app showing how to integrate with Okta via OIDC",
+  "repository": "https://github.com/jpf/okta-oidc-sample",
+  "logo": "https://www.okta.com/sites/all/themes/Okta/images/blog/Auras/Okta_Aura_Solid_BrightBlue_40percent.png",
+  "success_url": "/welcome",
+  "env": {
+    "ISSUER": {
+      "description": "Access Token Issuer URL",
+      "value": "https://example.oktapreview.com"
+    },
+    "AUDIENCE": {
+      "description": "Access Token Audience URI",
+      "value": "ANRZhyDh8HBFN5abN6Rg"
+    },
+    "IDP": {
+      "description": "Okta ID for the Social IdP",
+      "value": "0oa4ftg4vzKlWHHEJ0h7"
+    },
+    "AUTHZISSUER": {
+      "description": "Alternate Authorization URL",
+      "value": "0oa4ftg4vzKlWHHEJ0h7"
+    },
+    "APITOKEN": {
+      "description": "Okta Organization SSWS API Token for Social IdP Callbacks",
+      "required": false,
+      "value": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+    }
+  },
+  "keywords": ["node", "express", "oidc", "okta"]
+}
