@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Final Steps</title>
+  </head>
+  <body>
+    <h1>You're almost done!</h1>
+    You just need to complete these steps to get this app working with Okta:
+    <ol>
+      <li>
+        In the
+        <a href="<%= oktaAdminOrg %>/admin/access/api/trusted_origins">
+          Trusted Origins section of your Okta organization</a>,
+        grant
+        <a href="http://developer.okta.com/docs/api/getting_started/enabling_cors.html">
+          CORS access
+        </a>
+        to: <code><%= thisAppUrl %></code>
+      </li>
+      <li>
+        Make sure that the
+        <a href="<%= oktaAdminOrg %>/admin/app/oidc_client/instance/<%= argv.audience %>/#tab-general">
+          OpenID Connect Application you created</a>
+        has the following URLs registered as Login redirect URIs:
+        <ul>
+          <li><code><%= thisAppUrl %>/</code></li>
+          <li><code><%= thisAppUrl %>/oidc</code></li>
+          <li><code><%= thisAppUrl %>/oidc.html</code></li>
+          <li><code><%= thisAppUrl %>/widget.html</code></li>
+        </ul>
+      </li>
+    </ol>
+  </body>
+</html>

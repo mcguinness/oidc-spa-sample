@@ -1,0 +1,8 @@
+(define([], {
+  orgUrl: '<%- argv.issuer %>',
+  clientId: '<%- argv.audience %>',
+  authzIssuer: '<%- argv.authzIssuer %>',
+  idp: '<%- argv.idp %>',
+  scopes: <%- JSON.stringify(argv.widgetScopes) %>,
+  protectedScope: '<%- argv.protectedScope %>'
+}));
