@@ -15,7 +15,7 @@ This sample demonstrates the OpenID Connect implicit flow:
 - Refresh Token: Uses the current session with Okta to obtain a new id_token (JWT) via a hidden iframe
 - Request Protected Resource (API): Uses the `id_token` as an OAuth2 Bearer Access Token to request a protected resources from an API (you must first authenticate)
 
-These scenarios are enabled by the `okta_post_message` custom `response_mode` for the [OpenID Connect Authentication Request](http://openid.net/specs/openid-connect-core-1_0.html#AuthRequest) which uses [HTML5 Window Messaging] (https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage) and a hidden iframe to return the [id_token]  (http://openid.net/specs/openid-connect-core-1_0.html#AuthResponse) to the Single Page Web App (SPA) without refreshing or redirecting the page.
+These scenarios are enabled by the `okta_post_message` custom `response_mode` for the [OpenID Connect Authentication Request](http://openid.net/specs/openid-connect-core-1_0.html#AuthRequest) which uses [HTML5 Window Messaging](https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage) and a hidden iframe to return the [id_token](http://openid.net/specs/openid-connect-core-1_0.html#AuthResponse) to the Single Page Web App (SPA) without refreshing or redirecting the page.
 
 See [postMessageCallback](https://github.com/mcguinness/okta-oidc-sample/blob/master/js/OktaAuthRequireJquery.js#L1118) for implementation details of how the `okta_post_message` response_mode works
 
@@ -24,6 +24,27 @@ See [postMessageCallback](https://github.com/mcguinness/okta-oidc-sample/blob/ma
 This sample demonstrates the OpenID Connect implicit flow with the Okta Sign-In Widget
 
 You can find the main javascript code and html in `/js/widget-app.js` and html in `widget.html`
+
+# Deploy to Heroku
+
+Prerequisites:
+1. The **name of your Okta org** (e.g. `http://example.okta.com`)
+2. A **Client ID**:
+   - Applications>Add Application
+   - Click the **"Create New App"** button
+   - Select **"Single Page App (SPA)"** as the Platform
+   - Select **"OpenID Connect"** and click the "Create" button
+   - Enter a name for the application such as "Sample OIDC App" and click **"Next"**
+   - Copy the **"Client ID"** for your new application
+   - Navigate to the **Groups** tab for the application and assign to the **Everyone** group
+
+Once you have your **Okta org** and **Client ID**, click the button below and follow the prompts:
+
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+
+# Local development
+
+Follow the steps below to install this sample on your local development machine:
 
 ## Prerequisites
 
